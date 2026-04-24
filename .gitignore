@@ -1,0 +1,22 @@
+.DS_Store
+
+# Python virtual environments
+.venv/
+venv/
+
+# Python caches/bytecode
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local tool/editor config
+.claude/
+
+# Project artifacts
+naina/data/
+naina/outputs/
+**/.DS_Store
+**/__pycache__/
+*.pt
