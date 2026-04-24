@@ -16,7 +16,6 @@ __pycache__/
 
 # Project artifacts
 naina/data/
-naina/outputs/
 **/.DS_Store
 **/__pycache__/
 *.pt

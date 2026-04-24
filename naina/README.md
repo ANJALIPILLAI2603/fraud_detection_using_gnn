@@ -50,6 +50,22 @@ Everything Janhavi needs is in **`naina/outputs/`**. Two files matter:
 1. `pyg_data.pt` — the PyG `Data` object (this is what you train on)
 2. `eda_report.md` — dataset stats, class imbalance, recommended `pos_weight`
 
+> ⚠️ **`pyg_data.pt` is NOT in the git repo** (it's 139 MB, over GitHub's 100 MB per-file limit).
+> You need to regenerate it once on your machine. It takes ~1 minute:
+>
+> ```bash
+> # 1. Download Elliptic CSVs from https://www.kaggle.com/datasets/ellipticco/elliptic-data-set
+> #    Put all 3 CSVs into naina/data/
+> # 2. Install deps + run the pipeline
+> cd naina
+> pip install -r requirements.txt
+> python scripts/01_eda.py                  # regenerates eda_report.md + plots
+> python scripts/02_graph_construction.py   # builds graph.gpickle
+> python scripts/03_feature_engineering.py  # produces outputs/pyg_data.pt ← you want this
+> ```
+>
+> After that, `naina/outputs/pyg_data.pt` exists locally and the loading instructions below work.
+
 ## 1. `pyg_data.pt` — the PyG `Data` object
 
 Binary PyTorch file. Load it in one line:
@@ -147,8 +163,10 @@ All PNGs in `naina/outputs/`:
 
 ## Handoff checklist for Janhavi
 
-- [ ] `git pull` to get the latest `outputs/`
-- [ ] `pip install torch torch-geometric` (if not already)
+- [ ] `git pull` to get my scripts + `outputs/` (plots + eda_report.md)
+- [ ] Download the 3 Elliptic CSVs from Kaggle → `naina/data/`
+- [ ] `pip install -r naina/requirements.txt`
+- [ ] Run my 3 scripts once to regenerate `naina/outputs/pyg_data.pt` locally
 - [ ] Load with `torch.load("naina/outputs/pyg_data.pt", weights_only=False)`
 - [ ] Read `naina/outputs/eda_report.md` for `pos_weight` and class counts
 - [ ] Build 2-layer GraphSAGE, use BCEWithLogitsLoss with `pos_weight=9.25`
