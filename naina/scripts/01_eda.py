@@ -173,7 +173,7 @@ def _write_report(
         "3. Features are already anonymised + numerical; no categorical encoding needed.",
         "4. Time-step is a natural split axis (temporal holdout mimics real deployment).",
     ]
-    (OUT_DIR / "eda_report.md").write_text("\n".join(report))
+    (OUT_DIR / "eda_report.md").write_text("\n".join(report), encoding="utf-8")
 
 
 def main() -> None:
