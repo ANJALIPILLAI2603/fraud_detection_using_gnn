@@ -43,7 +43,7 @@ def train():
 def evaluate(mask):
     model.eval()
     logits = model(data.x, data.edge_index)
-    preds = (torch.sigmoid(logits[mask]) > 0.5).float()
+    preds = (torch.sigmoid(logits[mask]) > 0.90).float()
     y_true = data.y[mask].cpu().numpy()
     y_pred = preds.cpu().numpy()
     return {
