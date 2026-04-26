@@ -49,15 +49,7 @@ I have successfully trained a GraphSAGE model for Bitcoin transaction fraud dete
 | **Balanced (RECOMMENDED)** | **0.90** | **~10% of txns** | Best overall for production |
 | Catch more fraud (zero-tolerance policy) | 0.85 | ~15% of txns | More false positives to review |
 
-## What Anjali Needs to Know (API Integration)
 
-**Input required**: For each transaction node, provide:
-- 169 feature values (already normalized - don't re-normalize)
-- Graph edges (connections to other transactions)
-
-**Output**: Fraud probability + binary alert (above/below threshold)
-
-**Expected load**: The model is lightweight and fast. Inference on 200k nodes takes seconds.
 
 **Deployment notes**:
 - Model expects normalized features. Use the features as-is from Naina's `pyg_data.pt`
@@ -133,19 +125,7 @@ I have successfully trained a GraphSAGE model for Bitcoin transaction fraud dete
 - [x] This documentation - Everything you need to know
 - [x] Threshold recommendation - 0.90 (balanced), 0.95 (precision), 0.85 (recall)
 
-## Next Steps for Anjali + Khushi
 
-**Anjali (API Integration)**:
-1. Load `model.pt` using the provided GraphSAGE class
-2. Create API endpoint accepting 169-dim feature vectors + edge indices
-3. Return fraud probability and binary alert using threshold 0.90
-4. Add logging to monitor drift (average probability, flag rate)
-
-**Khushi (Dashboard)**:
-1. Run `inference_example.py` to get predictions for all nodes
-2. Build interactive dashboard with threshold slider
-3. Add visualization: flagged nodes in graph context
-4. Display temporal trends: flag rate by time step
 
 
 
