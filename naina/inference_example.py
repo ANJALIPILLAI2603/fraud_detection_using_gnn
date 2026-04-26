@@ -21,12 +21,37 @@ model.eval()
 data = torch.load("outputs/pyg_data.pt", weights_only=False)
 
 # Predict with OPTIMAL THRESHOLD
-THRESHOLD = 0.90
+THRESHOLD = 0.85
 
 with torch.no_grad():
     fraud_probs = torch.sigmoid(model(data.x, data.edge_index))
     fraud_predictions = (fraud_probs > THRESHOLD).long()
+y_true = data.y.cpu().numpy()
+y_pred = fraud_predictions.cpu().numpy()
+y_prob = fraud_probs.cpu().numpy()
 
+# 🔽 ADD HERE
+from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
+
+# 🔴 FILTER ONLY LABELED DATA (0 and 1)
+mask = y_true != -1
+
+y_true_filtered = y_true[mask]
+y_pred_filtered = y_pred[mask]
+y_prob_filtered = y_prob[mask]
+
+print("\n" + "="*50)
+print("DETAILED EVALUATION (LABELED DATA ONLY)")
+print("="*50)
+
+print("\n📊 Classification Report:")
+print(classification_report(y_true_filtered, y_pred_filtered))
+
+print("\n📉 Confusion Matrix:")
+print(confusion_matrix(y_true_filtered, y_pred_filtered))
+
+auc = roc_auc_score(y_true_filtered, y_prob_filtered)
+print("\n🎯 AUC Score:", auc)
 # Results
 total = len(fraud_predictions)
 fraud_count = (fraud_predictions == 1).sum().item()
